@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	  <meta charset="utf-8">
+
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<title>web video receiver</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<script type="text/javascript">
+            var ws = new WebSocket("ws://192.168.1.106:8686/");
+            ws.onclose = function(event) {
+			  if (event.wasClean) {
+			    // alert('Соединение закрыто чисто');
+			  } else {
+			    // alert('Обрыв соединения'); // например, "убит" процесс сервера
+			  }
+			  // alert('Код: ' + event.code + ' причина: ' + event.reason);
+			};
+
+            ws.onmessage = function (msg) {
+               $("#cam").attr('src', 'data:image/jpg;base64,' +  msg.data);
+            };
+        </script>
+
+    <p id="title_text">Real-time Cam <span class='multicolortext'>Translation</span></p>
+    <img id="cam" src=""/>
+    <p id="descr_text"><span class="glow">(with face-recognition)</span></p>
+
+</body>
+</html>
